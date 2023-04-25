@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { getAllTodos, createTodo, deleteTodo } from "../utils/supabaseFunction";
+import {supabase} from "../utils/supabase";
 
 const TodoApp = () => {
-  const [todos, setTodos] = useState<any>([]);
+  const [todos, setTodos] = useState<[]>([]);
   const [title, setTitle] = useState<string>('');
+
+  const fetchUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    console.log(user)
+  }
+
   useEffect(() => {
     const getTodos = async () => {
       const todos = await getAllTodos();
@@ -11,6 +18,7 @@ const TodoApp = () => {
       console.log(todos)
     }
     getTodos();
+    fetchUser();
   }, []);
 
   const handleSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
