@@ -13,7 +13,7 @@ const TodoApp = () => {
 
   useEffect(() => {
     const getTodos = async () => {
-      const todos = await getAllTodos();
+      const todos:any = await getAllTodos();
       setTodos(todos);
       console.log(todos)
     }
@@ -25,7 +25,7 @@ const TodoApp = () => {
     e.preventDefault();
     if (title === '') return;
     await createTodo(title);
-    const todos = await getAllTodos();
+    const todos:any = await getAllTodos();
     setTodos(todos);
     setTitle('');
   }
@@ -34,7 +34,7 @@ const TodoApp = () => {
     let answer = confirm('削除しますか？');
     if (!answer) return;
     await deleteTodo(id);
-    const todos = await getAllTodos();
+    const todos:any = await getAllTodos();
     setTodos(todos);
   }
 
