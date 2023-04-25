@@ -41,21 +41,21 @@ const TodoApp = () => {
   return (
     <section className='text-center mb-2 text-2xl font-medium'>
       <h3>Supabase Todo App</h3>
-      <form onClick={(e) => handleSubmit(e)}>
-        <input type="text" className='shadow-lg p-i outline-none' onChange={(e) => setTitle(e.target.value)}
-          value={title} />
-        <button className='shadow-md border-2 px-1 py-1 rounded-lg bg-green-50'>Add</button>
-      </form>
-      <div>
-        <ul className="mx-auto">
-          {todos.map((todo, index) => (
-            <div className="flex bg-orange-200 rounded-md mt-2 mb-2 p-2 justify-between" key={index}>
-              <li className="font-medium">✅ {todo.title}</li>
-              <span className="cursor-pointer" onClick={() => handleDelete(todo.id)}>×</span>
-            </div>
-          ))}
-        </ul>
-      </div>
+      {/*<form onClick={(e) => handleSubmit(e)}>*/}
+      {/*  <input type="text" className='shadow-lg p-i outline-none' onChange={(e) => setTitle(e.target.value)}*/}
+      {/*    value={title} />*/}
+      {/*  <button className='shadow-md border-2 px-1 py-1 rounded-lg bg-green-50'>Add</button>*/}
+      {/*</form>*/}
+      {/*<div>*/}
+      {/*  <ul className="mx-auto">*/}
+      {/*    {todos.map((todo, index) => (*/}
+      {/*      <div className="flex bg-orange-200 rounded-md mt-2 mb-2 p-2 justify-between" key={index}>*/}
+      {/*        <li className="font-medium">✅ {todo.title}</li>*/}
+      {/*        <span className="cursor-pointer" onClick={() => handleDelete(todo.id)}>×</span>*/}
+      {/*      </div>*/}
+      {/*    ))}*/}
+      {/*  </ul>*/}
+      {/*</div>*/}
     </section>
   )
 };
