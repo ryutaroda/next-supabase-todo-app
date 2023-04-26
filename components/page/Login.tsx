@@ -6,7 +6,9 @@ import { useRouter } from 'next/navigation'
 export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const router = useRouter()
+    const router = useRouter();
+    const [isValidError, setIsValidError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -16,17 +18,43 @@ export const Login = () => {
                 password: password,
             })
             if (error) {
-                return alert(error.message)
+                setIsValidError(true);
+                return setErrorMessage('ログイン情報が正しくありません');
             }
+            setIsValidError(false);
+            setErrorMessage('');
             router.push("/");
         }catch{
-            alert('エラーが発生しました');
+            setIsValidError(true);
+            return setErrorMessage('エラーが発生しました');
         }
     }
     
     return (
         <section className="">
-            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 sm:max-w-md">
+                {isValidError ?
+                    <div className="alert alert-error shadow-lg my-5">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6"
+                                 fill="none" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>{errorMessage}</span>
+                        </div>
+                    </div>
+                    : <div className="alert alert-error shadow-lg my-5 opacity-0">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6"
+                                 fill="none" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>{errorMessage}</span>
+                        </div>
+                    </div>
+                }
                 <div
                     className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

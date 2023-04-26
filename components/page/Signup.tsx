@@ -5,30 +5,64 @@ import {useState} from "react";
 export const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isValidError, setIsValidError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (e: any) => {
         console.log(1)
         e.preventDefault();
         console.log(2)
-        try{
-            const { data, error } = await supabase.auth.signUp({
+        try {
+            if (password.length < 8) {
+                setIsValidError(true);
+                return setErrorMessage('パスワードは8文字以上で入力してください');
+            }
+            const {data, error} = await supabase.auth.signUp({
                 email: email,
                 password: password,
             })
             if (error) {
-                return alert(error.message)
+                setIsValidError(true);
+                return setErrorMessage(error.message);
             }
+            setIsValidError(false);
+            setErrorMessage('');
             alert('新規登録しました');
-        }catch(error){
-            alert('エラーが発生しました');
+        } catch (error) {
+            setIsValidError(true);
+            return setErrorMessage('エラーが発生しました');
         }
     }
 
     return (
         <section className="">
-            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <div
+                className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 sm:max-w-md">
+                {isValidError ?
+                    <div className="alert alert-error shadow-lg my-5">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6"
+                                 fill="none" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>{errorMessage}</span>
+                        </div>
+                    </div>
+                    : <div className="alert alert-error shadow-lg my-5 opacity-0">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6"
+                                 fill="none" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>{errorMessage}</span>
+                        </div>
+                    </div>
+                }
                 <div
                     className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Create to your account
@@ -41,7 +75,7 @@ export const Signup = () => {
                                 <input type="email" name="email" id="email"
                                        value={email} onChange={e => setEmail(e.target.value)}
                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="name@company.com" required />
+                                       placeholder="name@company.com" required/>
                             </div>
                             <div>
                                 <label htmlFor="password"
@@ -49,7 +83,7 @@ export const Signup = () => {
                                 <input type="password" name="password" id="password" placeholder="••••••••"
                                        value={password} onChange={e => setPassword(e.target.value)}
                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       required />
+                                       required/>
                             </div>
                             {/*<div className="flex items-center justify-between">*/}
                             {/*    <div className="flex items-start">*/}
@@ -75,7 +109,8 @@ export const Signup = () => {
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Don’t have an account yet?
                                 <Link href="/login" legacyBehavior>
-                                    <a className="ml-1 font-medium text-primary-600 hover:underline dark:text-primary-500">Sign in</a>
+                                    <a className="ml-1 font-medium text-primary-600 hover:underline dark:text-primary-500">Sign
+                                        in</a>
                                 </Link>
 
                             </p>
